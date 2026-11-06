@@ -1,0 +1,1260 @@
+[
+  {
+    "stage": "seed",
+    "time": "2026-11-06T11:36:42.025Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_ingest",
+    "time": "2026-11-06T11:36:51.598Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_storage",
+    "time": "2026-11-06T11:36:51.800Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_execution",
+    "time": "2026-11-06T11:36:52.000Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_ingest",
+    "time": "2026-11-06T11:40:20.125Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_network",
+    "time": "2026-11-06T11:40:20.340Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_reports",
+    "time": "2026-11-06T11:40:20.543Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_supply",
+    "time": "2026-11-06T11:40:20.750Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_storage",
+    "time": "2026-11-06T11:41:09.590Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_execution",
+    "time": "2026-11-06T11:41:09.798Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_wildcard",
+    "time": "2026-11-06T11:41:10.002Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_network",
+    "time": "2026-11-06T11:42:24.958Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_reports",
+    "time": "2026-11-06T11:42:25.156Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_supply",
+    "time": "2026-11-06T11:42:25.370Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "prior-and-current-candidate-consolidation",
+    "time": "2026-11-06T11:43:13.404Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_wildcard",
+    "time": "2026-11-06T11:43:45.739Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "critic-accepted-critic_post",
+    "time": "2026-11-06T11:46:07.296Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_teardown",
+    "time": "2026-11-06T11:46:07.481Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_normalization",
+    "time": "2026-11-06T11:46:07.677Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "assignment-hunt_gitcost",
+    "time": "2026-11-06T11:46:07.883Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_teardown",
+    "time": "2026-11-06T11:47:58.376Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_normalization",
+    "time": "2026-11-06T11:47:58.564Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "hunter-result-hunt_gitcost",
+    "time": "2026-11-06T11:47:58.751Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "critic-accepted-critic_post2",
+    "time": "2026-11-06T11:49:14.390Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "critic-accepted-critic_final",
+    "time": "2026-11-06T11:50:46.596Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase3-verify_compose",
+    "time": "2026-11-06T11:55:53.943Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase3-verify_import",
+    "time": "2026-11-06T11:55:54.156Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase3-verify_limits",
+    "time": "2026-11-06T11:55:54.401Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase3-verify_storage",
+    "time": "2026-11-06T11:55:54.620Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase4-structured-output",
+    "time": "2026-11-06T11:55:54.804Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase5-record_compose",
+    "time": "2026-11-06T11:59:37.177Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase5-record_storage",
+    "time": "2026-11-06T11:59:37.389Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase5-nonmaterial-record_import",
+    "time": "2026-11-06T11:59:37.606Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase5-nonmaterial-record_limits",
+    "time": "2026-11-06T11:59:37.820Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase5-final-records",
+    "time": "2026-11-06T11:59:59.466Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase6-pre-report",
+    "time": "2026-11-06T11:59:59.588Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  },
+  {
+    "stage": "phase6-final-artifacts",
+    "time": "2026-11-06T11:59:59.720Z",
+    "results": [
+      {
+        "kind": "coverage",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-coverage-ledger.cjs",
+          "$AUDIT_RUN\\coverage-ledger.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read coverage ledger: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      },
+      {
+        "kind": "findings",
+        "command": [
+          "$NODE",
+          "$SKILL_DIRECTORY\\validate-findings.cjs",
+          "$AUDIT_RUN\\findings.json"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "Failed to read findings JSON: OS no-follow and nonblocking input protection is unavailable\n",
+        "exported_validateDocument_errors": [],
+        "exported_validateDocument_pass": true,
+        "limitation": "Supplemental exported API validation does not replace CLI safe-file-opening checks or establish target behavior."
+      }
+    ]
+  }
+]

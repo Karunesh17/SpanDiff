@@ -1,0 +1,37 @@
+schema_version: 1
+project: orders-api
+adapter: fastapi-compose
+compose_file: compose.spandiff.yml
+app_service: api
+health_path: /health
+fixtures: fixtures-v1
+prepare_command: [python, scripts/prepare_test_data.py]
+reset_command: [python, scripts/reset_test_data.py]
+credentials:
+  orders_token: ORDERS_TEST_TOKEN
+scenarios:
+  list_orders:
+    method: GET
+    path: /orders
+    assertions:
+      status: 200
+      json:
+        items: list
+    warmup: 5
+    samples: 30
+    concurrency: 1
+    timeout_seconds: 10
+    budgets:
+      database_calls_per_request: 5
+    write: false
+limits:
+  command_timeout_seconds: 300
+  readiness_timeout_seconds: 60
+  request_timeout_seconds: 30
+  flush_timeout_seconds: 30
+  cleanup_timeout_seconds: 60
+  max_output_bytes: 1048576
+  max_trace_bytes: 50000000
+  max_spans: 100000
+  max_samples: 1000
+  max_concurrency: 32

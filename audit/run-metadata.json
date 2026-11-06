@@ -1,0 +1,169 @@
+{
+  "run_id": "SpanDiff-run-2",
+  "repo": "SpanDiff",
+  "target": "$REPOSITORY_ROOT",
+  "branch": "main",
+  "source_ref": "e04968ec258882fd3b5b944b329bc79414f7d06f",
+  "worktree_dirty": false,
+  "initial_status_porcelain": [],
+  "profile": "standard",
+  "scope_paths": [
+    "."
+  ],
+  "budget": null,
+  "execution_policy": "sandboxed-source-and-local-only",
+  "selected_companion_files": [
+    "AI-AND-LLM.md",
+    "CLIENT-SIDE.md",
+    "CLOUD-AND-DEPLOYMENT.md",
+    "DATA-ISOLATION-AND-LIFECYCLE.md",
+    "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md",
+    "SUPPLY-CHAIN-AND-RELEASE.md"
+  ],
+  "prior_run_paths": [
+    "$PRIOR_AUDIT_RUN"
+  ],
+  "shared_file_owners": {
+    "parent": [
+      "run-metadata.json",
+      "architecture.md",
+      "coverage-ledger.json",
+      "findings.json",
+      "REPORT.md",
+      "FINDINGS-DETAIL.md",
+      "NEEDS-VALIDATION.md"
+    ]
+  },
+  "run_status": "incomplete",
+  "skill_directory": "$SKILL_DIRECTORY",
+  "skill_source": "https://github.com/cloudflare/security-audit-skill",
+  "skill_content_sha256": "2A68AB5531DFCCEDAC2B054E0814F2B6517DAAE9887B3EE40AFCC5D8A7063C3A",
+  "started_at": "2026-11-06T11:32:11.5894523Z",
+  "budget_gate": "No agent budget set; reserve four baseline reconnaissance agents, post-wave and distinct final critics, and fresh candidate/final verifiers before hunting.",
+  "skill_install_record": {
+    "folder_hash": "ccbc33ed119b28c3ef7b44a7e2081ab191ad63af",
+    "version_kind": "installed skillFolderHash plus SKILL.md SHA256; upstream commit not asserted",
+    "source": "cloudflare/security-audit-skill",
+    "installed_at": "2026-11-06T11:22:05.898Z"
+  },
+  "sandbox_capability": {
+    "available": false,
+    "reason": "Windows host provides no verified OS-enforced backend meeting all required controls. WSL reports not installed; Docker executable presence does not establish an isolated backend with read-only target/toolchain, scratch-only writes and all CPU/memory/process/file/disk/time limits. No target execution authorized outside that boundary."
+  },
+  "plan": {
+    "reconnaissance": 4,
+    "hunters_wave1": 7,
+    "post_wave_critics": 1,
+    "final_clean_critics": 1,
+    "candidate_and_record_verifiers_reserved": 16,
+    "budget_gate": "No strict budget; validation and critic capacity reserved before hunting.",
+    "hunters_wave2": 3,
+    "extra_post_wave_critics": 1
+  },
+  "validation_capability": {
+    "supplemental_validation": "Unmodified exported validateDocument functions run on parent-created JSON; they do not substitute for CLI file-opening protections.",
+    "node_version": "v26.13.0",
+    "reason": "Both official CLI validators exit 1 because OS no-follow and nonblocking input protection is unavailable on Windows Node.",
+    "required_validator_cli": "blocked"
+  },
+  "workflow_limitations": [
+    "Required OS sandbox not established; no target execution.",
+    "Official validator CLI safe-input guards unsupported; continue supported source review and supplementary schema checks under user instruction, without claiming full workflow completion.",
+    "Agent isolation is fresh independent contexts and disjoint write policy; no target subprocesses launched.",
+    "Six binary planning DOCX documents not parsed; application source and maintained textual docs determine implemented behavior."
+  ],
+  "source_scope_inventory": {
+    "tracked_files": 102,
+    "binary_planning_documents_excluded": 6,
+    "historical_git_secret_scan": "not performed; current tracked source path-only scans only",
+    "test_methods": 92,
+    "textual_source_manifest_files": 96,
+    "test_modules": 34,
+    "external_advisory_lookup": "not performed; no current dependency CVE assurance"
+  },
+  "prior_evidence_policy": "Read prior run-1 metadata, all eight ledger units and four records; relevant current source re-read. All four prior claims independently revalidated and finally rechecked, no prior confirmation inherited.",
+  "authorized_external_access": "Public user-specified Cloudflare skill repository documentation only. No target/production endpoints, registries, provider APIs, third-party test systems or paid model APIs contacted.",
+  "prior_lead_source_comparison": [
+    "storage.py current resolve/_owned follows links and checks self.home; no application file consumer found.",
+    "cli current _import_pair calls read_text before importer byte check; current CLI is local operator input.",
+    "compose.py current constructor normalizes names, start/stop call injected runner; no deployed shared caller source.",
+    "model.py current limits are separate from ScenarioRunner; no implemented shared execution endpoint."
+  ],
+  "coverage_critic_result": {
+    "source_coverage_only": true,
+    "post_wave2_stop": true,
+    "post_wave1_missing": 3,
+    "distinct_final_clean_stop": true,
+    "wave2_units": 3
+  },
+  "incomplete_reason": "required_os_sandbox_and_validator_cli_file_guards_unavailable",
+  "finished_at": "2026-11-06T11:59:59.590Z",
+  "source_review_complete": true,
+  "independent_record_verification_complete": true,
+  "target_execution_performed": false,
+  "target_files_modified": false,
+  "final_source_identity": {
+    "branch": "main",
+    "commit": "e04968ec258882fd3b5b944b329bc79414f7d06f",
+    "status_porcelain": [],
+    "source_manifest_files": 96,
+    "source_manifest_unchanged": true
+  },
+  "result_counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "informational": 0,
+    "confirmed": 0,
+    "needs_validation": 0,
+    "rejected": 4,
+    "pending_independent_validation": 0
+  },
+  "coverage_counts": {
+    "covered": 17,
+    "candidate": 4,
+    "blocked": 0,
+    "deferred": 0,
+    "out_of_scope": 0,
+    "not_applicable": 0,
+    "planned": 0,
+    "in_progress": 0
+  },
+  "agent_accounting": {
+    "unique_delegated_contexts": 25,
+    "additional_serialization_turns": 3,
+    "additional_retry_turns": 3,
+    "delegated_turn_attempts": 31,
+    "failed_turns_recovered": 3,
+    "user_budget": null,
+    "planned_initial_contexts": 29,
+    "revised_contexts_used": 25,
+    "note": "Four baseline recon, ten hunters across two waves, three fresh critics, four candidate verifiers and four additional final record verifiers. Initial 16-verifier reserve was not a spending cap."
+  },
+  "recovered_failures": [
+    "verify_compose initial turn: usage limit; retried successfully",
+    "verify_import initial turn: usage limit; retried successfully",
+    "verify_limits initial turn: usage limit; retried successfully"
+  ],
+  "phases": {
+    "reconnaissance": "supported source review completed",
+    "hunting": "two waves completed; post-wave and distinct final critics accept source assignment sufficiency",
+    "candidate_validation": "four prior claims independently rejected from source; no new surviving hunter candidates",
+    "structured_output": "final JSON written; exported unmodified schema/ledger checks pass, mandatory CLI safe-input guards fail on Windows",
+    "record_verification": "fresh additional independent review of all four rejected records completed",
+    "reporting": "all requested reports written; full workflow remains incomplete"
+  },
+  "publication": {
+    "repository": "https://github.com/Karunesh17/SpanDiff",
+    "visibility": "public",
+    "source_snapshot_commit": "e04968ec258882fd3b5b944b329bc79414f7d06f",
+    "transformations": [
+      "Original source snapshot copied without modification.",
+      "Audit Markdown source links converted to repository-relative line anchors.",
+      "Machine-specific paths replaced with placeholders; original local evidence retained.",
+      "No agent scratch directories, credentials, environments or generated build outputs published."
+    ],
+    "audit_completion_claim": "incomplete"
+  }
+}

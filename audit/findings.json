@@ -1,0 +1,321 @@
+[
+  {
+    "verdict": "rejected",
+    "fingerprint": "spandiff/compose/experiment-name-collision",
+    "title": "Compose identifier collisions lack a source-grounded unauthorized caller",
+    "description": "Lossy normalization makes exp/a and exp-a derive identical ownership strings. This establishes a namespace correctness concern, but the repository exposes only a trusted library constructor with an injected runner, not a lower-trust experiment selector or an unauthorized resource operation. Network and volume ownership strings are not consumed by the adapter commands.",
+    "claimed_root_cause": "The ownership namespace is derived from lossy normalization without collision-resistant experiment identifier encoding.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 29,
+        "scope": "ComposeAdapter.__init__",
+        "description": "A library caller supplies the experiment identifier and optional privileged runner; this is not established as a lower-trust entrypoint."
+      },
+      {
+        "kind": "propagation",
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 35,
+        "scope": "ComposeAdapter.__init__",
+        "description": "Lowercasing, regex replacement, and stripping can map distinct identifiers to the same string."
+      },
+      {
+        "kind": "sink",
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 70,
+        "scope": "ComposeAdapter.stop",
+        "description": "With a caller-supplied runner, cleanup passes the derived project selector in a Compose down --volumes argument tuple; no cross-owner execution is demonstrated."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 25,
+        "description": "The regex replaces every run outside lowercase letters, digits and hyphens; the collision arithmetic is supported by source."
+      },
+      {
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 36,
+        "description": "Three ownership strings are constructed, but only project_name is used by command(); no assignment of network_name or volume_name to actual Compose resources is present."
+      },
+      {
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 43,
+        "description": "Start validation requires the resolved Compose file to exist within the resolved repository."
+      },
+      {
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 49,
+        "description": "Commands use an argument tuple and the derived project name, with no shell string."
+      },
+      {
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 60,
+        "description": "Startup rejects an absent runner, and passes only configured credential references through approved_environment."
+      },
+      {
+        "file": "src/spandiff/adapters/compose.py",
+        "line": 68,
+        "description": "Cleanup also rejects an absent runner; actual Docker execution and daemon policy are supplied externally."
+      },
+      {
+        "file": "tests/test_compose_adapter.py",
+        "line": 30,
+        "description": "The test covers one ordinary exp-1 name with a fake runner and credential handling; it supplies no collision or cross-principal evidence."
+      },
+      {
+        "file": "src/spandiff/config/model.py",
+        "line": 214,
+        "description": "Parsed project names have a restricted syntax, although normalization is still lossy and this restriction does not prove collision resistance."
+      },
+      {
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 31,
+        "description": "CLI dispatch supports version, import and doctor; it does not construct or run ComposeAdapter."
+      },
+      {
+        "file": "src/spandiff/orchestration/doctor.py",
+        "line": 65,
+        "description": "Doctor explicitly performs prerequisite checks without spawning a process."
+      },
+      {
+        "file": "README.md",
+        "line": 58,
+        "description": "The documented execution boundary limits execution to trusted repositories and synthetic test data."
+      }
+    ],
+    "reason": "Rejected as a security candidate because the first trace element is trusted library configuration rather than a demonstrated lower-trust boundary. Source searches found ComposeAdapter construction only in tests, and no CLI/service or lifecycle attachment allowing a separate principal to choose a colliding identifier. Actual network and volume names and concurrent cross-cleanup are also not established by the stored ownership strings. Collision-resistant naming could improve correctness, but inventing a multi-principal shared-daemon integration is required to turn this observation into an unauthorized effect. No target code was executed because the required OS sandbox is unavailable; that limitation does not preserve a candidate that lacks a source-grounded boundary."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "spandiff/import/prelimit-full-read",
+    "title": "CLI pre-limit file buffering is local-process hardening without established shared impact",
+    "description": "Source confirms that the local operator-selected baseline file is fully read and imported before the candidate file is read and imported. Each read_text call precedes the importer's UTF-8 byte check. This establishes potentially unbounded pre-check local input buffering, but the implemented interface does not establish attacker submission to another principal's shared worker or a meaningful shared resource effect.",
+    "claimed_root_cause": "The CLI allocates file text before import_otlp_json checks its encoded byte length; the importer also creates a UTF-8 encoding to measure that length.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 34,
+        "scope": "main",
+        "description": "The local CLI operator supplies required --baseline and --candidate file paths; dispatch at line 44 calls _import_pair. No upload or shared-service interface is implemented here."
+      },
+      {
+        "kind": "propagation",
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 61,
+        "scope": "_import_pair",
+        "description": "The complete baseline UTF-8 text is passed to import_otlp_json before line 62 reads the candidate text. A baseline failure prevents the candidate read; both raw file strings are not necessarily retained together."
+      },
+      {
+        "kind": "propagation",
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 62,
+        "scope": "_import_pair",
+        "description": "After baseline import succeeds, the complete candidate UTF-8 text is passed to the same importer while the baseline ImportResult remains retained."
+      },
+      {
+        "kind": "sink",
+        "file": "src/spandiff/collection/otlp_json.py",
+        "line": 67,
+        "scope": "import_otlp_json",
+        "description": "The size check allocates text.encode('utf-8') after receiving the full string, and rejects encoded length exceeding the default 50,000,000 bytes before JSON parsing."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 33,
+        "description": "The actual interface is a local argparse import command with caller-selected paths, optional output and no configuration or limit argument."
+      },
+      {
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 61,
+        "description": "read_text has no preceding file-size check or bounded read. Baseline and candidate are read/imported sequentially at lines 61-62."
+      },
+      {
+        "file": "src/spandiff/collection/otlp_json.py",
+        "line": 63,
+        "description": "The library takes an already allocated str, with default max_bytes=50,000,000 and max_spans=100,000; the CLI uses these defaults."
+      },
+      {
+        "file": "src/spandiff/collection/otlp_json.py",
+        "line": 70,
+        "description": "json.loads materializes the document only after the encoded byte limit; that limit does not bound earlier file reading."
+      },
+      {
+        "file": "src/spandiff/collection/otlp_json.py",
+        "line": 120,
+        "description": "The span limit bounds unique retained spans, not parsed document cardinality or duplicate issue count; duplicate issue entries at lines 124-126 remain within the prior input byte cap."
+      },
+      {
+        "file": "src/spandiff/security/sanitizer.py",
+        "line": 24,
+        "description": "Allowed retained string attribute values are truncated to 512 characters; non-string values are converted and truncated except booleans and numeric values, which are preserved. Fixed attribute allowlists and these downstream controls do not cap the earlier raw text allocation."
+      },
+      {
+        "file": "tests/test_otlp_import.py",
+        "line": 37,
+        "description": "This test covers malformed JSON, max_bytes rejection using max_bytes=10, and invalid trace IDs. This file contains no max_spans test and no CLI bounded-read/resource measurement; the prior description claiming max_spans coverage was incorrect."
+      },
+      {
+        "file": "README.md",
+        "line": 3,
+        "description": "The project identifies itself as a local CLI and coding-agent skill. README lines 56-57 claiming no trace-file reading are stale relative to the implemented import dispatch and are not used to deny its existence."
+      },
+      {
+        "file": "pyproject.toml",
+        "line": 14,
+        "description": "The packaged spandiff command invokes spandiff.cli:main; source search finds production import_otlp_json calls only in the local CLI, with the library additionally exported for caller-controlled use."
+      }
+    ],
+    "reason": "Reject as a security finding under the applicable resource-exhaustion gate: the source-visible pre-limit full read is real, but the established interface requires a local operator to select and run an import and the established cost is that process's memory/CPU. No implemented remote submission boundary, shared worker pool, multitenant service, paid callback, persistent resource retention or other-principal availability effect is shown on this path. A hypothetical future shared-service wrapper is a new deployment assumption rather than a decisive missing fact for this local interface. File size limits before reads would be useful hardening; they do not establish the required meaningful shared effect. No target code, tests, imports, fixtures, builds or network were executed because the approved OS-enforced sandbox with network denial, allowlisted empty environment, read-only target/tools, scratch-only writes and explicit resource/wall-clock limits is unavailable. Thus no memory measurements or runtime consequences are claimed; this source-based gate rejection does not rely on execution or promoted artifacts."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "spandiff/limits/scenario-consumer-gap",
+    "title": "Scenario limit consumer gap does not establish a security boundary bypass",
+    "description": "ScenarioRunner does not receive RepositoryConfig.limits and uses caller-selected warmup and sample counts. This is a source-visible integration hardening gap, but the implemented local application does not expose scenario execution to a lower-trust requester or allocate another principal's shared capacity.",
+    "claimed_root_cause": "ExecutionLimits and Scenario are separate configuration objects, with no comparison of scenario sample counts against max_samples and no runner-level limits parameter.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "src/spandiff/collection/runner.py",
+        "line": 57,
+        "scope": "ScenarioRunner.run",
+        "description": "Actual execution entry is a library call supplying a Scenario; this is not an authenticated or lower-trust request handler."
+      },
+      {
+        "kind": "propagation",
+        "file": "src/spandiff/collection/runner.py",
+        "line": 58,
+        "scope": "ScenarioRunner.run",
+        "description": "Caller-selected warmups and samples are iterated sequentially and retained as Sample records."
+      },
+      {
+        "kind": "sink",
+        "file": "src/spandiff/collection/runner.py",
+        "line": 72,
+        "scope": "ScenarioRunner._sample",
+        "description": "Each iteration invokes the privileged requester callback provided by the same library integrator and passes the scenario timeout."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "src/spandiff/config/model.py",
+        "line": 89,
+        "description": "ExecutionLimits declares finite default settings; these declarations are not an untrusted execution entrypoint."
+      },
+      {
+        "file": "src/spandiff/config/model.py",
+        "line": 155,
+        "description": "Parsing validates nonnegative warmups, positive integer sample/concurrency counts and finite positive timeouts, but does not compare them to limits."
+      },
+      {
+        "file": "src/spandiff/collection/runner.py",
+        "line": 49,
+        "description": "Requester, reset and clock behavior are injected by the library caller. No shared scheduler or quota principal is implemented; concurrency is not consumed by the sequential runner."
+      },
+      {
+        "file": "src/spandiff/collection/runner.py",
+        "line": 61,
+        "description": "Measured write samples require a successful reset before each request; failures abort execution."
+      },
+      {
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 31,
+        "description": "Implemented commands are version, import and doctor, with no scenario-run command or connection to ScenarioRunner."
+      },
+      {
+        "file": "src/spandiff/orchestration/doctor.py",
+        "line": 63,
+        "description": "The configuration-taking CLI path loads configuration and performs read-only prerequisite checks without invoking scenario execution."
+      },
+      {
+        "file": "tests/test_runner.py",
+        "line": 29,
+        "description": "Source-visible runner callers are tests that explicitly supply their own scenarios and callbacks; these tests were read but not executed."
+      },
+      {
+        "file": "README.md",
+        "line": 58,
+        "description": "Documented execution scope is trusted repositories and synthetic test data."
+      }
+    ],
+    "reason": "Rejected as a security finding because ScenarioRunner.run is a library method whose caller supplies both the Scenario and requester callback, and source review establishes no implemented path from untrusted configuration authors to another principal's worker, quota or service allocation. Selecting excessive work for one's own injected callback is a reliability/hardening concern. The concurrency claim additionally lacks a concurrency effect because the runner is sequential. A hypothetical hosted integration would introduce a new trust boundary rather than validate this repository's trace. No target execution occurred because the required OS-enforced sandbox was unavailable; runtime absence does not preserve a candidate whose essential security boundary is unsupported by source."
+  },
+  {
+    "verdict": "rejected",
+    "fingerprint": "spandiff/storage/resolve-shared-home-symlink",
+    "title": "Within-home symlink alias lacks an established unauthorized storage consumer",
+    "description": "The resolver can canonicalize an artifact alias into a different project or experiment beneath the same home. This is a narrower containment guarantee than the experiment-relative wording suggests, but the repository exposes only a path-returning helper and establishes no lower-trust link producer or privileged reader/writer using its result.",
+    "claimed_root_cause": "OwnedStorage._owned validates canonical containment beneath self.home rather than the selected project or experiment, allowing within-home symlink aliases.",
+    "trace": [
+      {
+        "kind": "entrypoint",
+        "file": "src/spandiff/evidence/storage.py",
+        "line": 40,
+        "scope": "OwnedStorage.resolve",
+        "description": "Public library caller supplies selectors; this is not itself an established lower-trust request entrypoint."
+      },
+      {
+        "kind": "propagation",
+        "file": "src/spandiff/evidence/storage.py",
+        "line": 46,
+        "scope": "OwnedStorage.resolve",
+        "description": "Appends the artifact path to the canonical experiment root and calls _owned."
+      },
+      {
+        "kind": "sink",
+        "file": "src/spandiff/evidence/storage.py",
+        "line": 49,
+        "scope": "OwnedStorage._owned",
+        "description": "Canonicalizes links, checks home containment at line 50, and returns a Path at line 52; performs no artifact read or write."
+      }
+    ],
+    "evidence": [
+      {
+        "file": "src/spandiff/evidence/storage.py",
+        "line": 32,
+        "description": "An optional project-bound handle rejects a different supplied project identifier; this does not independently check canonical project ownership."
+      },
+      {
+        "file": "src/spandiff/evidence/storage.py",
+        "line": 48,
+        "description": "The claimed helper scope exists; its canonical containment comparison is at line 50 and is against home."
+      },
+      {
+        "file": "tests/test_storage.py",
+        "line": 33,
+        "description": "Existing link test targets a directory outside home; it does not cover aliases between projects or experiments inside home. Not executed."
+      },
+      {
+        "file": "src/spandiff/evidence/storage.py",
+        "line": 17,
+        "description": "Full-match bounded identifier validation, followed by experiment validation at line 37 and absolute/parent traversal rejection at line 44, are the strongest selector controls."
+      },
+      {
+        "file": "docs/DECISIONS.md",
+        "line": 58,
+        "description": "Intended layout is project/experiment partitioned; lines 61-63 describe canonical storage-root containment and explicitly state resolution does not create directories or access application data."
+      },
+      {
+        "file": "src/spandiff/evidence/__init__.py",
+        "line": 3,
+        "description": "Exports OwnedStorage. Repository-wide reference inspection found resolver invocations only in tests and its own implementation, with no application read/write consumer."
+      },
+      {
+        "file": "src/spandiff/cli/__init__.py",
+        "line": 59,
+        "description": "Actual import reader consumes operator-selected explicit paths at lines 61-62 and writes the explicit output at line 81; it does not use OwnedStorage."
+      },
+      {
+        "file": "src/spandiff/evidence/database.py",
+        "line": 204,
+        "description": "Database opening accepts its own explicit path, enables foreign keys, and does not consume OwnedStorage results."
+      }
+    ],
+    "reason": "Reject as a security finding for this repository's established local-operator trust model. The source supports a helper containment/contract hardening gap, but the proposed trace begins with an ordinary library call and ends with a returned path, not unauthorized disclosure or mutation. No source-visible lower-trust principal can plant links for a more privileged storage consumer, no such consumer is integrated, and no affected owner or protected operation is established. An external integration would introduce a new trust boundary rather than supply a missing observation on an existing path. A two-project fixture would demonstrate only the already source-visible return scope. No target execution was performed because the required OS sandbox is unavailable; that does not prevent source-based rejection of the claimed security lineage."
+  }
+]

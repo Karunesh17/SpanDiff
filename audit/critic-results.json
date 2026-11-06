@@ -1,0 +1,95 @@
+{
+  "critic_post": {
+    "missing_units": [
+      {
+        "surface": "src/spandiff/adapters/compose.py#ComposeAdapter.stop",
+        "boundary": "src/spandiff/adapters/compose.py#ComposeOwnership",
+        "subsystem": "src/spandiff/adapters",
+        "attack_class": "Namespace and label trust confusion",
+        "starting_paths": [
+          "src/spandiff/adapters/compose.py",
+          "src/spandiff/config/model.py",
+          "tests/test_compose_adapter.py",
+          "src/spandiff/orchestration/cleanup.py"
+        ],
+        "selected_companion_blocks": [
+          "CLOUD-AND-DEPLOYMENT.md#Namespace and label trust confusion",
+          "CLOUD-AND-DEPLOYMENT.md#Host or control-plane capability exposure"
+        ],
+        "excluded_blocks": [
+          {
+            "block": "CLOUD-AND-DEPLOYMENT.md#Secret exposure across workload boundaries",
+            "reason": "stop passes an empty environment; credential forwarding on start already has source coverage."
+          }
+        ],
+        "reason": "The selected namespace companion currently shares one start-oriented check. Source has a distinct destructive lifecycle mode: stop constructs docker compose down --volumes without calling validate, does not require a successful start, and uses only the lossy derived namespace/config path rather than a registered ownership token. Trace stop-only and failed-start teardown, namespace equivalence and any actual cleanup integration. This requests source coverage, not a finding: no remote deployment or unauthorized selector principal is assumed. Existing start evidence already discusses collision generation but does not explicitly close these teardown paths."
+      },
+      {
+        "surface": "src/spandiff/normalization/sql.py#normalize_sql",
+        "boundary": "src/spandiff/normalization/sql.py#sqlglot.parse_one",
+        "subsystem": "src/spandiff/normalization",
+        "attack_class": "Superlinear parsing, matching, or evaluation",
+        "starting_paths": [
+          "src/spandiff/normalization/sql.py",
+          "src/spandiff/normalization/http.py",
+          "src/spandiff/normalization/grouping.py",
+          "tests/test_sql_normalization.py",
+          "tests/test_http_normalization.py",
+          "pyproject.toml"
+        ],
+        "selected_companion_blocks": [
+          "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Superlinear parsing, matching, or evaluation",
+          "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Reachable fatal error or deadlock",
+          "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality"
+        ],
+        "excluded_blocks": [
+          {
+            "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance",
+            "reason": "No authentication service or shared remote request consumer is implemented."
+          }
+        ],
+        "reason": "The selected parser-cost companion is checked only on the OTLP JSON import path. SQL normalization is a separate lower-trust observation parser: parse_one, recursive tree transformation and SQL regeneration have no local input-size/depth budget, and only two parser exception classes are normalized. Existing normalization review checks leakage, while wildcard checks do not include SQL/HTTP normalization paths. Review cost/error propagation and actual callers, with HTTP parsing as the parallel path; do not infer an integration, superlinear algorithm or cross-principal availability consequence absent from source."
+      },
+      {
+        "surface": "src/spandiff/orchestration/revisions.py#_default_runner",
+        "boundary": "src/spandiff/orchestration/snapshot.py#_default_runner",
+        "subsystem": "src/spandiff/orchestration",
+        "attack_class": "Unbounded buffering and cardinality",
+        "starting_paths": [
+          "src/spandiff/orchestration/revisions.py",
+          "src/spandiff/orchestration/snapshot.py",
+          "tests/test_revisions.py",
+          "tests/test_snapshot.py",
+          "README.md"
+        ],
+        "selected_companion_blocks": [
+          "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality",
+          "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Detached work after cancellation",
+          "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#File descriptor, handle, and temporary-resource leaks"
+        ],
+        "excluded_blocks": [
+          {
+            "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Quota-accounting scope and reset gaps",
+            "reason": "These are local Git subprocess helpers, with no implemented quota principal or shared-service accounting."
+          }
+        ],
+        "reason": "Current Git units cover shell/ownership and snapshot filename/output selection; their exact maps exclude the resource companion. Fixture cancellation coverage concludes no default subprocess runner exists on its fixture boundary. In contrast both Git helpers implement subprocess.run(capture_output=True) without timeout, and snapshot capture fully buffers binary git diff and untracked filename output before hashing/filtering. These concrete same-path alternate sinks merit explicit buffering, cancellation and process-lifetime coverage even if the trusted-repository/local-operator contract ultimately makes all observations hardening."
+      }
+    ],
+    "reassign_ids": [],
+    "resolved_prior_leads": [],
+    "stop": false
+  },
+  "critic_post2": {
+    "missing_units": [],
+    "reassign_ids": [],
+    "resolved_prior_leads": [],
+    "stop": true
+  },
+  "critic_final": {
+    "missing_units": [],
+    "reassign_ids": [],
+    "resolved_prior_leads": [],
+    "stop": true
+  }
+}

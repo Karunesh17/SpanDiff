@@ -1,0 +1,276 @@
+[
+  {
+    "record": {
+      "verdict": "needs_validation",
+      "fingerprint": "spandiff/compose/experiment-name-collision",
+      "title": "Compose ownership names can collide for distinct experiment identifiers",
+      "description": "ComposeAdapter normalizes project and experiment identifiers by replacing every non-lowercase-alphanumeric/hyphen run with a hyphen. Distinct experiment IDs such as exp/a and exp-a can therefore receive the same project, network, and volume names, making concurrent lifecycle operations address the same resources.",
+      "claimed_root_cause": "The ownership namespace is derived from lossy normalization without validating or hashing the experiment identifier for collision resistance.",
+      "trace": [
+        {
+          "kind": "entrypoint",
+          "file": "src/spandiff/adapters/compose.py",
+          "line": 29,
+          "scope": "ComposeAdapter.__init__",
+          "description": "The adapter accepts an experiment_id used to derive external resource names."
+        },
+        {
+          "kind": "propagation",
+          "file": "src/spandiff/adapters/compose.py",
+          "line": 35,
+          "scope": "ComposeAdapter.__init__",
+          "description": "The experiment ID is passed through lossy regex substitution and stripped."
+        },
+        {
+          "kind": "sink",
+          "file": "src/spandiff/adapters/compose.py",
+          "line": 36,
+          "scope": "ComposeOwnership",
+          "description": "The normalized string becomes the Compose project, network, and volume ownership namespace."
+        }
+      ],
+      "evidence": [
+        {
+          "file": "src/spandiff/adapters/compose.py",
+          "line": 25,
+          "description": "_SAFE replaces non-alphanumeric/hyphen runs with a single hyphen."
+        },
+        {
+          "file": "src/spandiff/adapters/compose.py",
+          "line": 36,
+          "description": "The normalized project and experiment values directly form all three resource names."
+        },
+        {
+          "file": "tests/test_compose_adapter.py",
+          "line": 30,
+          "description": "Tests verify a normal unique name but do not cover colliding identifiers or concurrent experiments."
+        }
+      ],
+      "blockers": [
+        "No sandboxed Compose runtime was available, so resource collision and cross-cleanup behavior were not exercised.",
+        "The repository does not show whether experiment_id is attacker-controlled or globally unique before adapter construction."
+      ],
+      "validation_plan": {
+        "local": "In an isolated fake-runner test, construct adapters for exp/a and exp-a and assert their ownership names; in a sandboxed Compose fixture, verify concurrent start/stop cannot affect the other experiment.",
+        "deployment": "Confirm experiment ID generation and whether multiple principals can start experiments concurrently against a shared Docker daemon."
+      }
+    },
+    "linked_ids": [
+      "src%2Fspandiff%2Fadapters%2Fcompose.py%23ComposeAdapter.start::src%2Fspandiff%2Fadapters%2Fcompose.py%23ComposeOwnership::src%2Fspandiff%2Fadapters::CLOUD-AND-DEPLOYMENT.md%23Host%20or%20control-plane%20capability%20exposure"
+    ],
+    "origin": "prior-run-1-revalidation",
+    "status": "phase3_rejected",
+    "phase3_verifier": "verify_compose",
+    "phase5_verifier": "record_compose",
+    "phase5": "verified"
+  },
+  {
+    "record": {
+      "verdict": "needs_validation",
+      "fingerprint": "spandiff/import/prelimit-full-read",
+      "title": "CLI import reads complete files before the importer byte limit",
+      "description": "The public import command reads both baseline and candidate files with Path.read_text before calling import_otlp_json. The importer enforces max_bytes only after the complete text object already exists, so an oversized local input can consume memory before it is rejected.",
+      "claimed_root_cause": "The size limit is enforced at the parser boundary after unbounded file reads instead of before or during bounded streaming reads.",
+      "trace": [
+        {
+          "kind": "entrypoint",
+          "file": "src/spandiff/cli/__init__.py",
+          "line": 61,
+          "scope": "_import_pair",
+          "description": "CLI accepts caller-selected baseline and candidate paths and reads each file as text."
+        },
+        {
+          "kind": "propagation",
+          "file": "src/spandiff/cli/__init__.py",
+          "line": 62,
+          "scope": "_import_pair",
+          "description": "The complete candidate text is passed to import_otlp_json after the read has completed."
+        },
+        {
+          "kind": "sink",
+          "file": "src/spandiff/collection/otlp_json.py",
+          "line": 67,
+          "scope": "import_otlp_json",
+          "description": "The max_bytes check occurs only after the full text argument and its UTF-8 encoding are already allocated."
+        }
+      ],
+      "evidence": [
+        {
+          "file": "src/spandiff/cli/__init__.py",
+          "line": 61,
+          "description": "Path.read_text has no pre-read size check or bounded read."
+        },
+        {
+          "file": "src/spandiff/collection/otlp_json.py",
+          "line": 67,
+          "description": "The importer rejects oversized input only after receiving the full string."
+        },
+        {
+          "file": "tests/test_otlp_import.py",
+          "line": 1,
+          "description": "Importer tests cover logical max_spans and malformed data but do not exercise a bounded CLI file read under resource limits."
+        }
+      ],
+      "blockers": [
+        "The required resource-limited sandbox was unavailable, so memory behavior was not measured with an oversized file.",
+        "The current CLI is a local command and the repository does not define whether untrusted users can submit import files to a shared process."
+      ],
+      "validation_plan": {
+        "local": "In the required resource-limited sandbox, provide a sparse or generated oversized input file to the CLI and observe bounded rejection versus process memory growth; do not exceed the minimum needed to establish the result.",
+        "deployment": "Confirm whether import runs on a shared service or only for a trusted local operator; if shared, treat file size as attacker-controlled input."
+      }
+    },
+    "linked_ids": [
+      "src%2Fspandiff%2Fcli%2F__init__.py%23_import_pair::src%2Fspandiff%2Fcollection%2Fotlp_json.py%23max_bytes::src%2Fspandiff%2Fcollection::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Unbounded%20buffering%20and%20cardinality"
+    ],
+    "origin": "prior-run-1-revalidation",
+    "status": "phase3_rejected",
+    "phase3_verifier": "verify_import",
+    "phase5_verifier": "record_import",
+    "phase5": "verified",
+    "phase5_nonmaterial_correction": {
+      "reason": "The rejected verdict, local CLI boundary, sequential full reads and cost scope are source-grounded. Correct sanitizer evidence precision: the 512-character truncation applies to strings and converted objects, while booleans and numeric values pass through unchanged at sanitizer.py:28-35. All cited files and importer call sites were re-read; no target execution occurred.",
+      "changed_fields": [
+        "evidence.5.description"
+      ],
+      "classification": "Nonmaterial factual precision only; verdict, root cause, trace, input, observed result, impact and severity unchanged. Parent re-read cited current source."
+    }
+  },
+  {
+    "record": {
+      "verdict": "needs_validation",
+      "fingerprint": "spandiff/limits/scenario-consumer-gap",
+      "title": "Declared scenario and execution limits are not enforced by all consumers",
+      "description": "The schema validates finite limits and Scenario carries samples, concurrency, and timeout values, but ScenarioRunner iterates scenario.warmup and scenario.samples directly and does not apply limits.max_samples or limits.max_concurrency. A configuration or integration that treats those limits as enforcement could receive substantially more work than intended.",
+      "claimed_root_cause": "Limits are represented in separate configuration objects without a single enforcement point connecting RepositoryConfig.limits to ScenarioRunner execution.",
+      "trace": [
+        {
+          "kind": "entrypoint",
+          "file": "src/spandiff/config/model.py",
+          "line": 89,
+          "scope": "ExecutionLimits",
+          "description": "The configuration model exposes finite max_samples and max_concurrency controls."
+        },
+        {
+          "kind": "propagation",
+          "file": "src/spandiff/config/model.py",
+          "line": 75,
+          "scope": "Scenario",
+          "description": "Scenario stores samples and concurrency independently from the limits object."
+        },
+        {
+          "kind": "sink",
+          "file": "src/spandiff/collection/runner.py",
+          "line": 58,
+          "scope": "ScenarioRunner.run",
+          "description": "Execution loops use scenario.warmup and scenario.samples directly, with no repository-limit check."
+        }
+      ],
+      "evidence": [
+        {
+          "file": "src/spandiff/config/model.py",
+          "line": 98,
+          "description": "max_samples is a validated finite setting but is not attached to ScenarioRunner."
+        },
+        {
+          "file": "src/spandiff/config/model.py",
+          "line": 99,
+          "description": "max_concurrency is validated but the runner has no concurrency-limit parameter or enforcement."
+        },
+        {
+          "file": "src/spandiff/collection/runner.py",
+          "line": 60,
+          "description": "The measured loop trusts scenario.samples directly."
+        }
+      ],
+      "blockers": [
+        "The current integration does not expose a complete end-to-end path that passes RepositoryConfig.limits into ScenarioRunner.",
+        "The target sandbox was unavailable, so no resource-limited local run was performed."
+      ],
+      "validation_plan": {
+        "local": "Construct a configuration with scenario.samples above limits.max_samples and run the actual orchestration path in a no-network resource-limited sandbox; verify whether it rejects before requests or performs the excess iterations.",
+        "deployment": "Confirm whether untrusted configuration authors can select scenario counts or whether configurations are trusted operator input."
+      }
+    },
+    "linked_ids": [
+      "src%2Fspandiff%2Fcollection%2Frunner.py%23ScenarioRunner.run::src%2Fspandiff%2Fconfig%2Fmodel.py%23ExecutionLimits::src%2Fspandiff%2Fcollection::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Quota-accounting%20scope%20and%20reset%20gaps"
+    ],
+    "origin": "prior-run-1-revalidation",
+    "status": "phase3_rejected",
+    "phase3_verifier": "verify_limits",
+    "phase5_verifier": "record_limits",
+    "phase5": "verified",
+    "phase5_nonmaterial_correction": {
+      "reason": "The rejection is source-grounded, but its reason incorrectly describes the current first trace element as a dataclass; the current trace starts at ScenarioRunner.run. Replace that stale characterization with the actual caller-supplied Scenario and callback authority.",
+      "changed_fields": [
+        "reason"
+      ],
+      "classification": "Nonmaterial factual precision only; verdict, root cause, trace, input, observed result, impact and severity unchanged. Parent re-read cited current source."
+    }
+  },
+  {
+    "record": {
+      "verdict": "needs_validation",
+      "fingerprint": "spandiff/storage/resolve-shared-home-symlink",
+      "title": "Artifact resolution may cross project or experiment boundaries through symlinks",
+      "description": "OwnedStorage binds a handle to a project identifier, but resolves the requested artifact through filesystem links and checks containment only against the shared storage home. A link inside one project can therefore resolve into another project or experiment that remains below that home.",
+      "claimed_root_cause": "The final containment invariant is shared-home containment rather than containment beneath the selected experiment root, and link traversal is not rejected.",
+      "trace": [
+        {
+          "kind": "entrypoint",
+          "file": "src/spandiff/evidence/storage.py",
+          "line": 40,
+          "scope": "OwnedStorage.resolve",
+          "description": "A caller supplies project, experiment, and a relative artifact path."
+        },
+        {
+          "kind": "propagation",
+          "file": "src/spandiff/evidence/storage.py",
+          "line": 46,
+          "scope": "OwnedStorage.resolve",
+          "description": "The requested relative path is appended to the experiment root and passed to _owned."
+        },
+        {
+          "kind": "sink",
+          "file": "src/spandiff/evidence/storage.py",
+          "line": 49,
+          "scope": "OwnedStorage._owned",
+          "description": "Path.resolve follows links and only checks that the resolved path remains under self.home."
+        }
+      ],
+      "evidence": [
+        {
+          "file": "src/spandiff/evidence/storage.py",
+          "line": 32,
+          "description": "Project binding validates the supplied project name but does not bind the resolved path to that project root."
+        },
+        {
+          "file": "src/spandiff/evidence/storage.py",
+          "line": 48,
+          "description": "The shared-home containment check accepts a resolved link target in another project under the same home."
+        },
+        {
+          "file": "tests/test_storage.py",
+          "line": 33,
+          "description": "The existing symlink test covers escape outside the home, not a link from one project into another project within the home."
+        }
+      ],
+      "blockers": [
+        "The required OS-enforced sandbox was unavailable, so a disposable two-project symlink fixture was not executed.",
+        "The deployment contract does not establish whether untrusted users or processes can create links in the evidence home."
+      ],
+      "validation_plan": {
+        "local": "In an isolated, no-network, read-only-target sandbox, create two project trees under a disposable storage home, place a link in project A targeting project B, and verify whether resolve('project-a', ...) returns a B path; also test link creation permissions.",
+        "deployment": "Confirm the evidence home is not writable by a lower-trust principal and that artifact readers require experiment-root containment rather than shared-home containment."
+      }
+    },
+    "linked_ids": [
+      "src%2Fspandiff%2Fevidence%2Fstorage.py%23OwnedStorage.resolve::src%2Fspandiff%2Fevidence%2Fstorage.py%23OwnedStorage._owned::src%2Fspandiff%2Fevidence::DATA-ISOLATION-AND-LIFECYCLE.md%23Missing%20tenant%20or%20owner%20enforcement"
+    ],
+    "origin": "prior-run-1-revalidation",
+    "status": "phase3_rejected",
+    "phase3_verifier": "verify_storage",
+    "phase5_verifier": "record_storage",
+    "phase5": "verified"
+  }
+]

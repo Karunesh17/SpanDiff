@@ -1,0 +1,967 @@
+{
+  "hunt_ingest": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fcli%2F__init__.py%23_import_pair::src%2Fspandiff%2Fcollection%2Fotlp_json.py%23import_otlp_json::src%2Fspandiff%2Fcollection::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/collection/otlp_json.py",
+          "src/spandiff/security/sanitizer.py",
+          "tests/test_otlp_import.py",
+          "tests/test_cli.py"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_ingest",
+            "reviewed_paths": [
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/collection/otlp_json.py",
+              "src/spandiff/security/sanitizer.py",
+              "tests/test_otlp_import.py",
+              "tests/test_cli.py"
+            ],
+            "invariant": "Trace content must remain inert data and must not choose filesystem destinations or cause network requests or executable deserialization.",
+            "method": "source",
+            "result": "The operator supplies baseline, candidate and output paths directly. JSON is parsed with json.loads; imported field values do not become paths, requests or commands. ID/timestamp validation and attribute allowlists apply before spans are retained. Output contains counts and operator-selected path provenance, rather than imported span contents. Symlink following and output replacement occur under the same local operator's explicitly selected paths; no repository-visible authority boundary makes these traversal vulnerabilities. Existing tests were inspected, not executed.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Fcli%2F__init__.py%23_import_pair::src%2Fspandiff%2Fcollection%2Fotlp_json.py%23max_bytes::src%2Fspandiff%2Fcollection::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Unbounded%20buffering%20and%20cardinality",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/collection/otlp_json.py",
+          "src/spandiff/config/model.py",
+          "src/spandiff/security/sanitizer.py",
+          "tests/test_otlp_import.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_ingest",
+            "reviewed_paths": [
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/collection/otlp_json.py",
+              "src/spandiff/config/model.py",
+              "src/spandiff/security/sanitizer.py",
+              "tests/test_otlp_import.py",
+              "README.md"
+            ],
+            "invariant": "A resource-exhaustion finding requires an attacker-controlled input-to-cost path with meaningful impact beyond the selecting operator's own process.",
+            "method": "source",
+            "result": "Independently reconsidered spandiff/import/prelimit-full-read: CLI read_text allocates the complete file before the importer checks its UTF-8 byte length. The importer then bounds accepted text to 50,000,000 bytes and unique retained spans to 100,000 by default. JSON materialization precedes the span limit; duplicate spans accumulate issue entries within the byte cap, and nested values can incur conversion or parser costs. No decompression, persistent cache, paid callback, shared worker pool or hosted service entry is implemented on this path. Configuration limits are not wired into this CLI command, which accepts no configuration argument. The established impact is local operator process resource use, so the prior fingerprint does not survive the security candidate gate. No target execution was performed.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Fconfig%2Floader.py%23parse_config::src%2Fspandiff%2Fconfig%2Floader.py%23_UniqueSafeLoader::src%2Fspandiff%2Fconfig::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/config/loader.py",
+          "src/spandiff/config/model.py",
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/orchestration/doctor.py",
+          "tests/test_config.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_ingest",
+            "reviewed_paths": [
+              "src/spandiff/config/loader.py",
+              "src/spandiff/config/model.py",
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/orchestration/doctor.py",
+              "tests/test_config.py",
+              "README.md"
+            ],
+            "invariant": "Configuration parsing must not execute YAML constructors, resolve credential values, run commands or promote parsed data into filesystem authority.",
+            "method": "source",
+            "result": "_UniqueSafeLoader subclasses yaml.SafeLoader and installs a mapping constructor that rejects duplicate keys. Strict mapping, field, scalar, command-array and credential-reference validation follows parsing. Parsing performs no command execution or environment resolution. The connected doctor path checks file presence and environment-reference presence without spawning configured commands or returning credential values. Arbitrary operator-selected configuration paths are intentional, and repository authors are trusted to select execution configuration. YAML depth/alias limits and malformed unhashable-key exception normalization are robustness concerns in this local parsing context, not demonstrated security-boundary failures. Existing tests were inspected only.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Replace CLI full read_text with a bounded binary read before decoding, rejecting max_bytes + 1 bytes; independently reconsidered prior fingerprint spandiff/import/prelimit-full-read is hardening because the implemented interface affects the selecting local operator's process and establishes no shared-service boundary.",
+      "Consider total-span and issue-count caps, JSON/YAML nesting limits, and bounded scalar conversion to improve resilience against malformed local evidence and configuration.",
+      "Normalize malformed container and YAML mapping-key failures into ImportValidationError or ConfigurationError so local invalid input produces consistent diagnostics."
+    ],
+    "uncovered": []
+  },
+  "hunt_storage": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fevidence%2Fdatabase.py%23open_database::src%2Fspandiff%2Fevidence%2Fdatabase.py%23foreign_keys::src%2Fspandiff%2Fevidence::DATA-ISOLATION-AND-LIFECYCLE.md%23Migration%20default%20and%20ownership%20confusion",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/evidence/database.py",
+          "src/spandiff/evidence/__init__.py",
+          "tests/test_evidence_database.py",
+          "docs/DECISIONS.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_storage",
+            "reviewed_paths": [
+              "src/spandiff/evidence/database.py",
+              "src/spandiff/evidence/__init__.py",
+              "tests/test_evidence_database.py",
+              "docs/DECISIONS.md"
+            ],
+            "invariant": "Supported migrations preserve experiment-qualified evidence relationships, reject unsupported future versions, and avoid partially applying failed migrations.",
+            "method": "source",
+            "result": "open_database enables foreign keys before migrating; migration 1 runs under BEGIN IMMEDIATE with commit/rollback, and future versions fail before migration. Composite evidence references retain experiment identity; experiment IDs themselves are globally unique. Existing tests describe fresh/reopened databases, failed migration rollback, future-version refusal and cross-experiment sample rejection, but were not executed. Direct connection access is trusted local library authority, with no source-visible lower-trust import/restore reader.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Fevidence%2Fstorage.py%23OwnedStorage.resolve::src%2Fspandiff%2Fevidence%2Fstorage.py%23OwnedStorage._owned::src%2Fspandiff%2Fevidence::DATA-ISOLATION-AND-LIFECYCLE.md%23Missing%20tenant%20or%20owner%20enforcement",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/evidence/storage.py",
+          "src/spandiff/evidence/__init__.py",
+          "tests/test_storage.py",
+          "tests/test_security_regression.py",
+          "docs/DECISIONS.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_storage",
+            "reviewed_paths": [
+              "src/spandiff/evidence/storage.py",
+              "src/spandiff/evidence/__init__.py",
+              "tests/test_storage.py",
+              "tests/test_security_regression.py",
+              "docs/DECISIONS.md"
+            ],
+            "invariant": "Selectors reject explicit project mismatch and traversal, and canonical paths remain within the configured home; any claimed cross-owner effect requires an actual lower-trust writer and privileged consumer.",
+            "method": "source",
+            "result": "Project/experiment IDs have bounded full-match validation; bound project handles reject mismatching project selectors; resolve rejects absolute paths and '..'; _owned canonicalizes and checks against home. Reconsidered spandiff/storage/resolve-shared-home-symlink: within-home links can resolve into another project or experiment because containment is checked only against home, but this resolver only returns a path. Source searches found no application read/write consumer or lower-trust symlink producer attached to it. Local operator filesystem authority is the only established principal, so the prior claim does not establish unauthorized access and is retained only as hardening. Existing tests cover outside-home symlinks, not within-home aliases; none were executed.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Forchestration%2Fcleanup.py%23CleanupManager.cleanup::src%2Fspandiff%2Forchestration%2Flifecycle.py%23register_resource::src%2Fspandiff%2Forchestration::DATA-ISOLATION-AND-LIFECYCLE.md%23Retention%20and%20queued-work%20overrun",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/orchestration/cleanup.py",
+          "src/spandiff/orchestration/lifecycle.py",
+          "src/spandiff/evidence/database.py",
+          "src/spandiff/orchestration/coordinator.py",
+          "tests/test_cleanup.py",
+          "tests/test_lifecycle.py",
+          "docs/DECISIONS.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_storage",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/cleanup.py",
+              "src/spandiff/orchestration/lifecycle.py",
+              "src/spandiff/evidence/database.py",
+              "src/spandiff/orchestration/coordinator.py",
+              "tests/test_cleanup.py",
+              "tests/test_lifecycle.py",
+              "docs/DECISIONS.md"
+            ],
+            "invariant": "Cleanup selects only resources registered to its experiment, retains failures for retry, and does not turn cancellation into successful result evidence.",
+            "method": "source",
+            "result": "Registration persists experiment-qualified resource rows and nonempty ownership fields. Cleanup enumerates using experiment_id, rejects unknown/duplicate selectors before handler calls, passes the registered ownership token and locator, qualifies updates by experiment/resource, skips cleaned rows and records missing/failed handlers as pending. Cancellation marks results incomplete. Handlers are injected trusted callbacks; no implemented queue, restore reader or deletion/retention guarantee establishes a later unauthorized data consumer. Existing tests describe retry/idempotence and unknown-resource rejection but were not executed. Aggregate cleanup state after subset cleanup and registration after cleanup are operational hardening opportunities without an established security impact.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Constrain canonical project/experiment/artifact paths to their selected canonical scope, and add within-home cross-project and cross-experiment symlink regression cases before integrating OwnedStorage with privileged file access. The prior fingerprint spandiff/storage/resolve-shared-home-symlink does not currently satisfy the affected-principal and consumer requirements.",
+      "Compute experiment cleanup_state from all registered resource rows after subset cleanup, rather than only the selected batch; define whether resource registration is allowed after cleanup.",
+      "Document that cleanup callbacks must verify the supplied ownership token against the actual resource before destructive operations; source-visible registration is metadata, not independent verification of an external resource."
+    ],
+    "uncovered": []
+  },
+  "hunt_execution": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fadapters%2Fcompose.py%23ComposeAdapter.start::src%2Fspandiff%2Fadapters%2Fcompose.py%23ComposeOwnership::src%2Fspandiff%2Fadapters::CLOUD-AND-DEPLOYMENT.md%23Host%20or%20control-plane%20capability%20exposure",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/adapters/compose.py",
+          "src/spandiff/config/model.py",
+          "src/spandiff/orchestration/doctor.py",
+          "tests/test_compose_adapter.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_execution",
+            "reviewed_paths": [
+              "src/spandiff/adapters/compose.py",
+              "src/spandiff/config/model.py",
+              "src/spandiff/orchestration/doctor.py",
+              "tests/test_compose_adapter.py",
+              "README.md"
+            ],
+            "invariant": "Lower-trust data must not gain host authority, disclose caller credentials, or select another owner's Compose resources.",
+            "method": "source",
+            "result": "Start validates the resolved Compose file against the repository, builds argv without a shell, rejects absent runners, and passes only credential references selected by trusted configuration. Configuration restricts project and service syntax. Compose definitions and execution callbacks are intentionally trusted; no lower-trust runtime caller or deployed workload boundary is implemented. Lossy project/experiment canonicalization permits equal derived names, but the previous spandiff/compose/experiment-name-collision lead does not establish unauthorized selector control or affected shared runtime resources and therefore does not survive the candidate gate. Doctor only checks prerequisites.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Forchestration%2Ffixtures.py%23FixtureManager._run::src%2Fspandiff%2Fconfig%2Fmodel.py%23_argv::src%2Fspandiff%2Forchestration::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Detached%20work%20after%20cancellation",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/orchestration/fixtures.py",
+          "src/spandiff/config/model.py",
+          "src/spandiff/adapters/compose.py",
+          "tests/test_fixtures.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_execution",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/fixtures.py",
+              "src/spandiff/config/model.py",
+              "src/spandiff/adapters/compose.py",
+              "tests/test_fixtures.py",
+              "README.md"
+            ],
+            "invariant": "Fixture execution must preserve its timeout contract and must not claim successful reset after an observed command failure.",
+            "method": "source",
+            "result": "Configuration requires nonempty argv and finite positive timeouts. FixtureManager forwards the command timeout to an explicitly injected runner; it supplies no default subprocess implementation. Missing runners fail closed, nonzero preparation fails, and nonzero reset produces a noncomparable outcome. Trusted fixture execution is designed authority. No source-visible child-process cancellation implementation, retained shared pool, or lower-trust shared availability path exists to support a detached-work finding.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Forchestration%2Frevisions.py%23RevisionManager.resolve::src%2Fspandiff%2Forchestration%2Frevisions.py%23_default_runner::src%2Fspandiff%2Forchestration::ATTACK-CLASSES.md%23Injection",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/orchestration/revisions.py",
+          "src/spandiff/orchestration/snapshot.py",
+          "tests/test_revisions.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_execution",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/revisions.py",
+              "src/spandiff/orchestration/snapshot.py",
+              "tests/test_revisions.py",
+              "README.md"
+            ],
+            "invariant": "Revision selection must not become shell execution or an unowned worktree operation.",
+            "method": "source",
+            "result": "The default runner uses subprocess argv without shell=True. Resolution requires a valid variant, a nonempty reference, successful Git completion, and exactly a 40-digit hexadecimal commit before returning a resolved revision. Worktree destinations validate variant syntax and resolved containment, and removal compares the supplied path with the owned destination. Caller-constructed ResolvedRevision values and repository Git configuration belong to the existing trusted library/operator authority. No lower-trust path to an unauthorized command effect was established.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Forchestration%2Fsnapshot.py%23DirtySnapshotter.capture::src%2Fspandiff%2Forchestration%2Fsnapshot.py%23write_manifest::src%2Fspandiff%2Forchestration::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/orchestration/snapshot.py",
+          "src/spandiff/orchestration/revisions.py",
+          "tests/test_snapshot.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_execution",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/snapshot.py",
+              "src/spandiff/orchestration/revisions.py",
+              "tests/test_snapshot.py",
+              "README.md"
+            ],
+            "invariant": "Repository-produced untracked names must not become file reads or output destinations, and snapshot contents must not silently include unapproved files.",
+            "method": "source",
+            "result": "Capture obtains Git output through argv, disables external diff, hashes tracked patch bytes, splits untracked names on NUL, and retains only explicitly approved names after exclusions. It does not open or copy untracked file contents. Missing approvals fail. write_manifest receives its destination directly from the privileged library caller and does not derive it from repository filenames. Its unrestricted destination is a caller-authorized local write rather than a demonstrated traversal boundary failure.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Use a digest of the original project and experiment identifiers in Compose names to prevent accidental collisions between independently selected local experiments; add cases covering case folding, punctuation replacement, and ambiguous project/experiment concatenation.",
+      "Document that injected fixture runners must enforce wall-clock termination, terminate descendants, bound captured output, and normalize timeout failures; the present callback interface alone does not enforce those guarantees.",
+      "Validate snapshot base_commit and caller-constructed resolved commits as hexadecimal commit IDs before Git invocation, and use an end-of-options marker for revision resolution where supported.",
+      "Consider an explicitly owned output root for snapshot manifests if a future integration accepts lower-trust output selectors."
+    ],
+    "uncovered": []
+  },
+  "hunt_network": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fcollection%2Frunner.py%23ScenarioRunner.run::src%2Fspandiff%2Fconfig%2Fmodel.py%23ExecutionLimits::src%2Fspandiff%2Fcollection::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Quota-accounting%20scope%20and%20reset%20gaps",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/collection/runner.py",
+          "src/spandiff/config/model.py",
+          "tests/test_runner.py",
+          "src/spandiff/adapters/compose.py",
+          "src/spandiff/cli/__init__.py",
+          "README.md",
+          "docs/DECISIONS.md",
+          "tests/test_security_regression.py"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_network",
+            "reviewed_paths": [
+              "src/spandiff/collection/runner.py",
+              "src/spandiff/config/model.py",
+              "tests/test_runner.py",
+              "tests/test_security_regression.py"
+            ],
+            "invariant": "Operator-selected scenario work must not bypass an implemented allocation boundary or retain shared worker capacity beyond an enforced deadline.",
+            "method": "source",
+            "result": "Scenario parsing rejects boolean/negative sample and concurrency values and nonfinite or nonpositive timeouts, but has no comparison with ExecutionLimits.max_samples/max_concurrency/request_timeout_seconds. ScenarioRunner.run executes warmups plus measured samples sequentially, stores their Sample records, resets before each measured write sample, and passes scenario.timeout_seconds directly to the injected requester. It neither receives ExecutionLimits nor implements a scheduler, quota principal, retry loop, paid API, or transport. Callback blocking and large same-operator sample selections are integration reliability issues; no source-visible other-user/shared-service allocation is affected. Tests were read only and demonstrate intended default counts and measured reset behavior, not enforced resource caps.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_network",
+            "reviewed_paths": [
+              "src/spandiff/adapters/compose.py",
+              "src/spandiff/cli/__init__.py",
+              "README.md",
+              "docs/DECISIONS.md"
+            ],
+            "invariant": "The resource finding must establish an existing lower-trust requester and affected operator resource rather than inventing a hosted deployment.",
+            "method": "source",
+            "result": "CLI dispatch provides version/import/doctor, with no route to ScenarioRunner.run. README restricts future execution to trusted repositories and synthetic test data. ComposeAdapter uses its readiness timeout for a local polling deadline but the check and runner are caller-supplied privileged callbacks; no implemented shared request service or paid downstream operation is present. Reconsidered spandiff/limits/scenario-consumer-gap independently: missing consumer linkage survives as hardening, while the essential cross-principal availability premise does not. No target code or fixture was executed.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Fsecurity%2Fdestination.py%23DestinationPolicy.validate::src%2Fspandiff%2Fsecurity%2Fdestination.py%23allowed_hosts::src%2Fspandiff%2Fsecurity::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/security/destination.py",
+          "tests/test_destination.py",
+          "src/spandiff/collection/runner.py",
+          "src/spandiff/config/model.py",
+          "src/spandiff/adapters/compose.py",
+          "src/spandiff/cli/__init__.py",
+          "tests/test_runner.py"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_network",
+            "reviewed_paths": [
+              "src/spandiff/security/destination.py",
+              "tests/test_destination.py"
+            ],
+            "invariant": "Destination policy must reject unapproved HTTP hosts and cross-host redirects before returning an approved destination.",
+            "method": "source",
+            "result": "from_hosts lowercases and removes trailing dots and rejects an empty effective allowlist. validate uses urlsplit hostname, requires http/https, and checks exact membership before calling an optional resolver. Supplied private/loopback or malformed resolver addresses fail. Output reconstructs scheme, normalized host, and path, removing query, fragment, credentials and explicit port. validate_redirect checks normalized original/target hostname equality and then re-applies the target allowlist/address check. Relative redirects are rejected. Optional resolver omission or empty results skip address protection, and policy has no DNS-to-connection binding, but this standalone helper makes no fetch. Existing tests assert query removal, disallowed host/private answers, and alternate-host redirect rejection; tests were not run.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_network",
+            "reviewed_paths": [
+              "src/spandiff/collection/runner.py",
+              "src/spandiff/config/model.py",
+              "src/spandiff/adapters/compose.py",
+              "src/spandiff/cli/__init__.py",
+              "tests/test_runner.py"
+            ],
+            "invariant": "A potential SSRF path must connect lower-trust URL selection to a repository-implemented network operation across an authority boundary.",
+            "method": "source",
+            "result": "Source references to DestinationPolicy are its export and standalone tests; ScenarioRunner accepts an injected requester and passes a scenario method/path/headers/timeout, with no implemented URL join, DNS resolution, HTTP client, redirect follower, or connection sink. Parsed scenario and health paths require a leading slash and reject queries; network-path references beginning // are not excluded, but any authority reinterpretation depends on an absent callback implementation. Compose readiness also receives only an injected check. No source-visible path takes lower-trust URLs through this helper into privileged transport. Consequently optional resolver and future parser/transport mismatch concerns are hardening rather than an SSRF candidate or an invented deployment blocker.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Before exposing execution to less-trusted configuration, wire ExecutionLimits into ScenarioRunner, cap the combined warmup/measured count, clamp request deadlines, and define aggregate experiment accounting; max_concurrency is currently unused because the runner is sequential. The previous spandiff/limits/scenario-consumer-gap lead does not meet the availability candidate gate in this local operator/callback-only implementation.",
+      "Before adding a concrete HTTP transport, require complete DNS checks when reject_private is true (including IP literals and empty resolver answers), bind validated addresses to connections and validate redirects through the same transport policy. Preserve or explicitly reject ports and IPv6 authorities rather than reconstructing ambiguous URLs; reject network-path scenario references if URL joining will be used. These are future integration safeguards; no implemented fetch crosses this boundary today."
+    ],
+    "uncovered": []
+  },
+  "hunt_reports": {
+    "units": [
+      {
+        "coverage_id": "skills%2Fspandiff%2FSKILL.md%23Evidence%20interpretation::skills%2Fspandiff%2FSKILL.md%23Safety::skills%2Fspandiff::AI-AND-LLM.md%23Indirect%20injection%20through%20retrieved%20or%20ingested%20content",
+        "unresolved": [],
+        "reviewed_paths": [
+          "skills/spandiff/SKILL.md",
+          "skills/spandiff/references/evidence.md",
+          "skills/spandiff/references/adapter.md",
+          "skills/spandiff/references/interpretation.md",
+          "skills/spandiff/references/troubleshooting.md",
+          "evaluations/cases.json",
+          "tests/test_evaluations.py",
+          "src/spandiff/reporting/result.py",
+          "src/spandiff/cli/__init__.py"
+        ],
+        "disposition": "covered",
+        "checks": [
+          {
+            "reviewed_paths": [
+              "skills/spandiff/SKILL.md",
+              "skills/spandiff/references/evidence.md",
+              "skills/spandiff/references/adapter.md",
+              "skills/spandiff/references/interpretation.md",
+              "skills/spandiff/references/troubleshooting.md",
+              "evaluations/cases.json",
+              "tests/test_evaluations.py",
+              "src/spandiff/reporting/result.py",
+              "src/spandiff/cli/__init__.py"
+            ],
+            "artifact": null,
+            "method": "source",
+            "invariant": "Lower-trust trace and result prose must not acquire executable authority in the evidence interpretation workflow.",
+            "agent_id": "hunt_reports",
+            "result": "The skill limits use to inspecting/explaining results, explicitly denies authority to run trace commands, mutate repositories, read credentials or publish, and treats imperative trace/report content as untrusted. These written instructions are not deterministic isolation. Source inspection finds no model client, prompt assembly, dispatcher, tool handler, persistent model memory, or agent-executed action consumer to establish a code-level authority crossing. ResultV1 retains arbitrary JSON data, but arbitrary permitted prose alone does not establish a vulnerable sink. Evaluations assert fixture structure and text only, not model compliance."
+          }
+        ],
+        "candidate_fingerprints": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Fcollection%2Fotlp_json.py%23import_otlp_json::src%2Fspandiff%2Fsecurity%2Fsanitizer.py%23_sanitize::src%2Fspandiff%2Fsecurity::DATA-ISOLATION-AND-LIFECYCLE.md%23Analytics%2C%20logs%2C%20traces%2C%20and%20diagnostics%20as%20alternate%20readers",
+        "unresolved": [],
+        "reviewed_paths": [
+          "src/spandiff/security/sanitizer.py",
+          "src/spandiff/collection/otlp_json.py",
+          "src/spandiff/normalization/sql.py",
+          "src/spandiff/normalization/http.py",
+          "src/spandiff/normalization/grouping.py",
+          "src/spandiff/comparison/structural.py",
+          "src/spandiff/reporting/result.py",
+          "src/spandiff/reporting/html.py",
+          "src/spandiff/reporting/waterfall.py",
+          "src/spandiff/orchestration/lifecycle.py",
+          "src/spandiff/orchestration/coordinator.py",
+          "src/spandiff/evidence/database.py",
+          "src/spandiff/collection/runner.py",
+          "src/spandiff/cli/__init__.py",
+          "tests/test_sanitizer.py",
+          "tests/test_security_regression.py",
+          "docs/DECISIONS.md"
+        ],
+        "disposition": "covered",
+        "checks": [
+          {
+            "reviewed_paths": [
+              "src/spandiff/security/sanitizer.py",
+              "src/spandiff/collection/otlp_json.py",
+              "src/spandiff/normalization/sql.py",
+              "src/spandiff/normalization/http.py",
+              "src/spandiff/normalization/grouping.py",
+              "src/spandiff/comparison/structural.py",
+              "src/spandiff/reporting/result.py",
+              "src/spandiff/reporting/html.py",
+              "src/spandiff/reporting/waterfall.py",
+              "src/spandiff/orchestration/lifecycle.py",
+              "src/spandiff/orchestration/coordinator.py",
+              "src/spandiff/evidence/database.py",
+              "src/spandiff/collection/runner.py",
+              "src/spandiff/cli/__init__.py",
+              "tests/test_sanitizer.py",
+              "tests/test_security_regression.py",
+              "docs/DECISIONS.md"
+            ],
+            "artifact": null,
+            "method": "source",
+            "invariant": "Trace credential/body/query data must not flow through a sanitization bypass to a source-visible unauthorized alternate reader.",
+            "agent_id": "hunt_reports",
+            "result": "Attribute sanitizer uses explicit span/resource allowlists and sensitive-key rejection, with bounded string values. Importer applies both sanitizers, but separately retains name, parent ID, kind and status; these are not content-redacted. SQL normalization replaces Literal nodes, HTTP normalization removes queries/fragments and numeric/UUID path segments, and safe_diagnostic only redacts values supplied by its caller. None of these is a universal secret classifier. The implemented import CLI exports only counts and operator-selected file paths, not imported attributes or names. SQL/HTTP identities have no implemented automatic connection to report export. Lifecycle transition accepts caller detail JSON without sanitizing, but no production caller or credential-to-detail/unauthorized-reader path is present. Database module defines schema/migration only; no trace persistence writer joins these stages. Report renderers serialize supplied result data to the same local operator; no sharing or distinct-reader policy is implemented. No concrete data-boundary failure survives source tracing."
+          }
+        ],
+        "candidate_fingerprints": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Freporting%2Fhtml.py%23render_html::src%2Fspandiff%2Freporting%2Fhtml.py%23_text::src%2Fspandiff%2Freporting::CLIENT-SIDE.md%23DOM-based%20XSS",
+        "unresolved": [],
+        "reviewed_paths": [
+          "src/spandiff/reporting/html.py",
+          "src/spandiff/reporting/result.py",
+          "src/spandiff/reporting/waterfall.py",
+          "tests/test_html_report.py",
+          "tests/test_waterfall.py",
+          "tests/test_report_usability.py"
+        ],
+        "disposition": "covered",
+        "checks": [
+          {
+            "reviewed_paths": [
+              "src/spandiff/reporting/html.py",
+              "src/spandiff/reporting/result.py",
+              "src/spandiff/reporting/waterfall.py",
+              "tests/test_html_report.py",
+              "tests/test_waterfall.py",
+              "tests/test_report_usability.py"
+            ],
+            "artifact": null,
+            "method": "source",
+            "invariant": "Attacker-influenced report text must not become executable markup, script, auto-loaded resources, or external navigation.",
+            "agent_id": "hunt_reports",
+            "result": "All dynamic text in render_html is passed through html.escape with quote=True, including JSON provenance. IDs and href fragments are restricted to ASCII alphanumeric underscore dot colon hyphen and fixed finding/sample prefixes; href is always a local fragment. State classes come from fixed constants, CSS is static, and there is no script, DOM assignment, event handler, remote resource, external link, opener, or clobbered global consumer. Waterfall names and kinds are escaped in text/title attributes, background classes are fixed, and style positions derive from arithmetic formatted numerically. Possible duplicate normalized anchors affect reference usability only. Test files were reviewed as source, not executed. No executing/disclosing client sink was identified."
+          }
+        ],
+        "candidate_fingerprints": []
+      }
+    ],
+    "hardening": [
+      "Keep sanitization scope explicit: imported non-attribute metadata and arbitrary ResultV1/lifecycle caller dictionaries are not automatically credential-redacted. Add explicit source-to-export contracts before integrating persistence or publication; current source does not establish an unauthorized reader.",
+      "sanitize_url retains URL authority (including userinfo) and path by design and has no source-visible production caller. Consider rejecting/removing userinfo before introducing a diagnostic/export consumer.",
+      "Evaluation tests validate case metadata and safety wording rather than exercising an interpreting model; retain this distinction when reporting verification."
+    ],
+    "candidates": [],
+    "uncovered": []
+  },
+  "hunt_supply": {
+    "units": [
+      {
+        "coverage_id": "pyproject.toml%23build-system::pyproject.toml%23dependencies::packaging::SUPPLY-CHAIN-AND-RELEASE.md%23Dependency%20source%20and%20namespace%20confusion",
+        "disposition": "covered",
+        "reviewed_paths": [
+          ".gitignore",
+          "docs/PLATFORM.md",
+          "docs/VALIDATION.md",
+          "examples/fastapi-orders/fixture.py",
+          "examples/fastapi-orders/README.md",
+          "examples/fastapi-orders/spandiff.yml",
+          "pyproject.toml",
+          "README.md",
+          "src/spandiff/__init__.py",
+          "src/spandiff/__main__.py",
+          "src/spandiff/adapters/compose.py",
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/collection/runner.py",
+          "src/spandiff/config/loader.py",
+          "src/spandiff/config/model.py",
+          "src/spandiff/orchestration/doctor.py",
+          "src/spandiff/orchestration/fixtures.py",
+          "src/spandiff/orchestration/revisions.py",
+          "src/spandiff/orchestration/snapshot.py",
+          "src/spandiff/security/destination.py",
+          "src/spandiff/security/sanitizer.py"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_supply",
+            "reviewed_paths": [
+              "pyproject.toml",
+              "README.md",
+              "docs/VALIDATION.md"
+            ],
+            "invariant": "Dependency and build resolution must not promote a lower-trust namespace or mutable input into privileged output.",
+            "method": "source",
+            "result": "The only declared build backend is setuptools.build_meta with setuptools>=68; runtime requirements are PyYAML>=6.0,<7 and sqlglot>=27.0,<28. No direct URLs, private namespaces, fallback indexes or custom hooks are declared. Tracked-file inventory has no lockfile, requirements override, pip configuration, submodules or alternate build scripts. Ranges alone do not establish an unauthorized actor or boundary crossing. Historical validation version statements are not current resolved dependency evidence; no CVE status is asserted.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_supply",
+            "reviewed_paths": [
+              "pyproject.toml",
+              ".gitignore",
+              "docs/PLATFORM.md",
+              "README.md"
+            ],
+            "invariant": "Only intended release inputs should enter artifacts, and untrusted CI events must not inherit publication authority.",
+            "method": "source",
+            "result": "Setuptools package discovery is scoped to src; readme is explicit. Tracked inventory contains no CI workflows, Dockerfile, runnable Compose definition, release/signing/update automation or custom publisher. No source-visible protected token or privileged event is present to trace. Ignore rules exclude virtual environments, build/dist, egg metadata, .spandiff, work and environment files except .env.example. Actual built artifact contents were not executed or inspected and no sensitive inclusion is established.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_supply",
+            "reviewed_paths": [
+              ".gitignore",
+              "examples/fastapi-orders/spandiff.yml",
+              "src/spandiff/config/model.py",
+              "src/spandiff/adapters/compose.py",
+              "src/spandiff/orchestration/doctor.py",
+              "src/spandiff/security/sanitizer.py"
+            ],
+            "invariant": "Obvious hardcoded credentials, checked-in credential files and working seed credentials must not supply an unauthorized principal.",
+            "method": "source",
+            "result": "Tracked path inventory contains no .env, credential JSON, PEM or key file. Broad secret-related scans returned paths only, avoiding credential contents; stricter assignment/key-format path-only scans found no matches. Example credentials are environment-variable references; model requires uppercase identifier references. Doctor reports presence, and adapter forwards only configured referenced values. No credential file or ambient environment was read. No source-grounded real credential disclosure or production-working seed credential was established.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_supply",
+            "reviewed_paths": [
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/__init__.py",
+              "src/spandiff/__main__.py",
+              "examples/fastapi-orders/fixture.py",
+              "examples/fastapi-orders/README.md"
+            ],
+            "invariant": "Debug gates and administrative/status/config endpoints must not expose a privileged running service.",
+            "method": "source",
+            "result": "The shipped entrypoint is a local argparse CLI with version/import/doctor commands. Source-wide endpoint/debug searches found no server framework, route registration, listener or debug environment gate. The example fixture returns deterministic in-memory values without starting a server. Thus /debug, /admin, /test, /status, /health, /metrics, /env, /.env and /config endpoint exposure has no implemented server sink. The example health_path is configuration for an external trusted repository.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_supply",
+            "reviewed_paths": [
+              "src/spandiff/config/loader.py",
+              "src/spandiff/config/model.py",
+              "src/spandiff/orchestration/fixtures.py",
+              "src/spandiff/orchestration/revisions.py",
+              "src/spandiff/orchestration/snapshot.py"
+            ],
+            "invariant": "Dynamic code and security bypass comments must not provide an overlooked execution path.",
+            "method": "source",
+            "result": "Source/example searches found no eval, exec, dynamic __import__, importlib loader, Function or vm execution. Package version uses standard importlib.metadata. YAML uses a SafeLoader subclass. Commands use argv subprocess calls or injected trusted runners, with deeper subprocess boundaries assigned to hunt_execution. Path-only security TODO/FIXME/HACK/XXX scan across source/tests/examples/docs found no matching comments.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_supply",
+            "reviewed_paths": [
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/collection/runner.py",
+              "src/spandiff/security/destination.py",
+              "examples/fastapi-orders/spandiff.yml"
+            ],
+            "invariant": "CORS, cookies, redirects, TLS and error handling must not expose an overlooked remote browser/service boundary.",
+            "method": "source",
+            "result": "No HTTP response server, CORS header configuration or cookie/session writer is implemented, so wildcard credentialed CORS and cookie flags have no source sink. Requests are delegated to an integrator callback. Standalone destination policy permits explicitly approved HTTP or HTTPS and restricts redirects to the same normalized host; deployment TLS is not established by the repository. Local CLI diagnostics can include user-selected paths and parser errors but do not serve production HTTP stack traces or SQL errors. Redirect/transport integration is assigned to hunt_network.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "For repeatable controlled releases, maintain an reviewed dependency lock or constraints file with artifact hashes and bounded build-tool versions; current mutable ranges do not alone demonstrate a vulnerability.",
+      "When CI/release automation is introduced, explicitly bind tested artifact identity to publication and narrow job permissions; no such workflow currently exists in tracked source."
+    ],
+    "uncovered": []
+  },
+  "hunt_wildcard": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fcollection%2Fflush.py%23CollectorSession.flush::src%2Fspandiff%2Fcollection%2Fflush.py%23finalized::src%2Fspandiff%2Fcollection::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Unsafe%20recovery%20and%20capacity%20rollback",
+        "unresolved": [],
+        "reviewed_paths": [
+          "src/spandiff/collection/flush.py",
+          "tests/test_flush.py",
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/collection/__init__.py"
+        ],
+        "disposition": "covered",
+        "checks": [
+          {
+            "reviewed_paths": [
+              "src/spandiff/collection/flush.py",
+              "tests/test_flush.py",
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/collection/__init__.py"
+            ],
+            "artifact": null,
+            "method": "source",
+            "invariant": "Collector finalization and retry must not create persistent work or cross a lower-trust authority boundary.",
+            "agent_id": "hunt_wildcard",
+            "result": "accept stores counters only and quarantines calls after finalization. flush polls an injected trusted callback until its clock deadline; no repository source consumer connects CollectorSession to shared-service resources, cleanup, verdict, or CLI execution. Finalized replay incorrectly erases a previous timeout, and callback duration is not preempted, but current impact is caller-local state/robustness, without a demonstrated lower-trust shared resource effect. No target code executed."
+          }
+        ],
+        "candidate_fingerprints": []
+      },
+      {
+        "coverage_id": "src%2Fspandiff%2Forchestration%2Fcoordinator.py%23CompareCoordinator.run::src%2Fspandiff%2Fcollection%2Fcoverage.py%23assess_coverage::src%2Fspandiff%2Fcomparison::ATTACK-CLASSES.md%23Wildcard",
+        "unresolved": [],
+        "reviewed_paths": [
+          "src/spandiff/orchestration/coordinator.py",
+          "src/spandiff/collection/coverage.py",
+          "src/spandiff/normalization/grouping.py",
+          "src/spandiff/comparison/structural.py",
+          "src/spandiff/comparison/timing.py",
+          "src/spandiff/comparison/calibration.py",
+          "src/spandiff/comparison/__init__.py",
+          "src/spandiff/reporting/result.py",
+          "src/spandiff/reporting/verdict.py",
+          "src/spandiff/cli/__init__.py",
+          "tests/test_coordinator.py",
+          "tests/test_coverage.py",
+          "tests/test_grouping.py",
+          "tests/test_structural_comparison.py",
+          "tests/test_timing.py",
+          "tests/test_calibration.py",
+          "tests/test_result.py",
+          "tests/test_verdict.py",
+          "README.md"
+        ],
+        "disposition": "covered",
+        "checks": [
+          {
+            "reviewed_paths": [
+              "src/spandiff/orchestration/coordinator.py",
+              "src/spandiff/collection/coverage.py",
+              "src/spandiff/normalization/grouping.py",
+              "src/spandiff/comparison/structural.py",
+              "src/spandiff/comparison/timing.py",
+              "src/spandiff/comparison/calibration.py",
+              "src/spandiff/comparison/__init__.py",
+              "src/spandiff/reporting/result.py",
+              "src/spandiff/reporting/verdict.py",
+              "src/spandiff/cli/__init__.py",
+              "tests/test_coordinator.py",
+              "tests/test_coverage.py",
+              "tests/test_grouping.py",
+              "tests/test_structural_comparison.py",
+              "tests/test_timing.py",
+              "tests/test_calibration.py",
+              "tests/test_result.py",
+              "tests/test_verdict.py",
+              "README.md"
+            ],
+            "artifact": null,
+            "method": "source",
+            "invariant": "Lower-trust observations and callback results must not gain authority or produce an implemented security gate bypass through comparability, coverage, serialization, or verdict evaluation.",
+            "agent_id": "hunt_wildcard",
+            "result": "Coordinator executes sequential trusted callbacks, retains exceptions as failed runs and requires success plus fixture identity. Coverage rejects absent denominators, undercorrelation, and nonzero orphan/missing/dropped counts. Verdict validates booleans and nonnegative integer count/budget values and prioritizes incompleteness. CLI import explicitly emits incomplete state and exit 2; it does not join coverage/comparison/verdict. Grouping, summary, and ResultV1 validation have robustness gaps recorded as hardening, but source callers establish no authorization, cleanup, deployment approval, resource ownership, or shared execution consequence. No target code executed."
+          }
+        ],
+        "candidate_fingerprints": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "src/spandiff/collection/flush.py:35-46: retain the first FlushResult and preserve failed flushed/complete state on repeated flush; finalized currently returns flushed=True and potentially complete=True after a timeout. Add a timeout-then-repeat regression. No implemented security consumer was found.",
+      "src/spandiff/collection/flush.py:38-43: validate finite nonnegative timeout and define callback deadline/cancellation contract. Polling is a busy loop and cannot preempt a blocking trusted callback. No shared or cross-principal availability effect is established by repository source.",
+      "src/spandiff/orchestration/coordinator.py:53-54: bind returned variant, revision and batch_id as well as fixture_id to the requested run before marking comparable. Callback is supplied by trusted integrator; mismatch is evidence-integrity robustness without an implemented privilege boundary.",
+      "src/spandiff/reporting/result.py:44-66: validate result_state and cleanup_state types/enums, completeness consistency and finite JSON numbers. Deserialization currently checks container shape rather than evidence authenticity or semantic consistency; no source authentication or authoritative approval claim exists.",
+      "src/spandiff/normalization/grouping.py:28-45: use a tuple for parent_path components and stable semantic-derived group identifiers when comparing separately grouped sets. Slash joins can collide, adding an earlier sorted operation shifts ordinal group IDs, and semantic ambiguity check cannot observe distinct shapes already separated by the key. No source automatic join into comparison or security action was found.",
+      "src/spandiff/collection/coverage.py:19-35 and src/spandiff/comparison/structural.py:28-39: validate public library numeric types and finite/range constraints consistently; add zero/negative/boolean/nonfinite boundary cases. Structural changed-count and changed-error checks are mutually exclusive, so simultaneous changes emit only the count rule. These are misleading evidence/robustness issues, not established lower-trust authority effects.",
+      "src/spandiff/comparison/timing.py:99-101: batch_counts scans selected samples once per unique batch, producing quadratic caller-local work when each sample has a unique batch. No service entry point/shared blast radius is implemented, so this is optimization hardening."
+    ],
+    "uncovered": []
+  },
+  "hunt_teardown": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fadapters%2Fcompose.py%23ComposeAdapter.stop::src%2Fspandiff%2Fadapters%2Fcompose.py%23ComposeOwnership::src%2Fspandiff%2Fadapters::CLOUD-AND-DEPLOYMENT.md%23Namespace%20and%20label%20trust%20confusion",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/adapters/compose.py",
+          "src/spandiff/config/model.py",
+          "tests/test_compose_adapter.py",
+          "src/spandiff/orchestration/cleanup.py",
+          "src/spandiff/orchestration/lifecycle.py",
+          "tests/test_cleanup.py",
+          "src/spandiff/orchestration/coordinator.py",
+          "src/spandiff/cli/__init__.py",
+          "README.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_teardown",
+            "reviewed_paths": [
+              "src/spandiff/adapters/compose.py",
+              "src/spandiff/config/model.py",
+              "tests/test_compose_adapter.py"
+            ],
+            "invariant": "A destructive stop-only or failed-start teardown must be assessed against the caller's actual resource-selection authority, separately from startup validation.",
+            "method": "source",
+            "result": "compose.py:69-75 stop only checks runner presence, invokes command('down','--volumes') with resolved repository cwd and an empty environment, and checks returncode. It neither calls validate nor requires successful start nor consults ownership registration. Constructor only requires an existing repository path; therefore direct stop and stop after validate/credential/up failures are source-reachable for a privileged library caller. command uses the same configured -f and derived -p as startup; app_service does not narrow down. config_from_mapping rejects POSIX absolute/parent traversal but stop has no resolved containment check, including for symlink or directly constructed RepositoryConfig. These are bypasses of startup checks, but config/repository authors and runner-providing integrators are trusted in this product, and no lower-trust selector caller is established. Existing adapter tests cover start/validate/readiness, not stop; they were read, not executed.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_teardown",
+            "reviewed_paths": [
+              "src/spandiff/adapters/compose.py",
+              "src/spandiff/config/model.py",
+              "README.md"
+            ],
+            "invariant": "A name/label collision becomes a security issue only if a less-trusted selector obtains destructive authority over another principal's resources.",
+            "method": "source",
+            "result": "compose.py:25,34-38 lowercases and replaces non [a-z0-9-] runs with '-', strips edge hyphens, and concatenates project and experiment with '-'. Accepted project values a.b and a_b normalize equally; project/experiment pairs ('a-b','c') and ('a','b-c') concatenate equally; experiment_id has no format validation. project_name alone reaches -p; network_name and volume_name are descriptive values with no Docker label inspection or token binding. Thus namespace uniqueness is not guaranteed and stop can emit identical destructive argv across distinct logical inputs. README safety scope limits execution to trusted repositories/synthetic data. There is no source-visible lower-trust selector principal, maintained effective Docker deployment, pinned Compose policy, or shared victim Docker resource. A namespace collision is therefore a concrete hardening concern rather than an established authorization failure; no unobserved Docker deletion effect is claimed.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_teardown",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/cleanup.py",
+              "src/spandiff/orchestration/lifecycle.py",
+              "tests/test_cleanup.py",
+              "src/spandiff/orchestration/coordinator.py",
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/adapters/compose.py"
+            ],
+            "invariant": "Do not assume registered cleanup ownership protects Compose teardown unless an actual source connection attaches those controls.",
+            "method": "source",
+            "result": "Repository-wide symbol/call search found ComposeAdapter references only in its definition, adapter exports, and adapter tests; no tracked call to stop and no Compose cleanup handler/runner implementation exists. CleanupManager._resources filters registrations by experiment, rejects unknown/duplicate IDs, then passes OwnedResource including ownership_token to injected handlers. LifecycleJournal.register_resource stores caller-provided nonempty fields. tests/test_cleanup.py uses recording/failing lambdas rather than ComposeAdapter, and coordinator accepts a generic callback. CLI offers version/import/doctor only. Hence cleanup registration does not bind Compose stop, but neither does a registered-resource attack path reach stop in source. No token-check bypass or active cancellation-to-Docker chain is established. Source-only coverage settles the current boundary; no deployment fact is required to reject an unsupported finding.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Before adding an active Docker lifecycle integration, replace lossy/delimiter-ambiguous namespace derivation with a stable collision-resistant experiment identity and bind teardown to recorded resource ownership. Add stop-only, failed-start, colliding namespace, and invalid/moved compose-path regression cases; distinguish cleanup of partially created owned resources from authorization to delete unrelated resources. The present source has trusted callers and no Docker cleanup integration, so this is not a vulnerability finding."
+    ],
+    "uncovered": []
+  },
+  "hunt_normalization": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Fnormalization%2Fsql.py%23normalize_sql::src%2Fspandiff%2Fnormalization%2Fsql.py%23sqlglot.parse_one::src%2Fspandiff%2Fnormalization::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Superlinear%20parsing%2C%20matching%2C%20or%20evaluation",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/normalization/sql.py",
+          "src/spandiff/normalization/http.py",
+          "src/spandiff/normalization/grouping.py",
+          "src/spandiff/normalization/__init__.py",
+          "pyproject.toml",
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/collection/otlp_json.py",
+          "src/spandiff/orchestration/coordinator.py",
+          "src/spandiff/comparison/structural.py"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_normalization",
+            "reviewed_paths": [
+              "src/spandiff/normalization/sql.py",
+              "pyproject.toml"
+            ],
+            "invariant": "SQL normalization cost and failures must have a source-grounded input path and meaningful shared-resource consequence before being classified as an availability vulnerability.",
+            "method": "source",
+            "result": "sql.py:20 rejects nonstrings and blank strings. Lines 23-27 invoke SQLGlot parsing, literal transformation and SQL generation without a local byte, tree-depth or node budget. Only ParseError and UnsupportedError from parse_one are converted to unknown; transformation and generation are outside the try. pyproject.toml:11 permits SQLGlot 27.x and does not establish a particular installed implementation. Source establishes no parser growth curve, recursion failure input or SQLGlot vulnerability; none is claimed. No target code or dependency was executed.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_normalization",
+            "reviewed_paths": [
+              "src/spandiff/normalization/http.py",
+              "src/spandiff/normalization/grouping.py"
+            ],
+            "invariant": "Parallel HTTP normalization and grouping must be checked for effective bounds, failure propagation, retained resources and amplification.",
+            "method": "source",
+            "result": "http.py:26-29 rejects disallowed services and invalid methods, but target has no explicit type/length guard and urlsplit at line 30 has no exception conversion. The segment patterns use fixed-width UUID syntax or simple character-class repetition; no catastrophic-backtracking construction is source-visible. Path splitting retains per-input segment copies and drops query/fragment values. grouping.py:34 bounds parent ancestry to eight entries, but not entry lengths; lines 39-46 consume all observations, retain every member and sort distinct keys. The functions have no global cache, queue, worker, subprocess, network fetch, persistent state or retry loop; objects are returned to the caller and no separate cleanup owner exists. Total work/cardinality is caller supplied, with no established cross-principal retention or shared pool impact.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_normalization",
+            "reviewed_paths": [
+              "src/spandiff/normalization/__init__.py",
+              "src/spandiff/cli/__init__.py",
+              "src/spandiff/collection/otlp_json.py",
+              "src/spandiff/orchestration/coordinator.py",
+              "src/spandiff/comparison/structural.py"
+            ],
+            "invariant": "Normalization exceptions and cost may be promoted to a security candidate only when an implemented caller connects lower-trust input to a shared service, another principal or operator-owned spend.",
+            "method": "source",
+            "result": "Source-wide reference search found normalize_sql, normalize_http and group_operations only at definitions and normalization package exports, with no application call sites. CLI import reads two local files and calls import_otlp_json; it emits only counts/provenance and never normalizes SQL/HTTP or groups observations. The importer advertises max_bytes=50000000 and max_spans=100000, but these are not asserted as bounds on direct library normalization calls because no connection exists. CompareCoordinator invokes an integrator-supplied callback and catches Exception into a failed VariantRun; no source wiring invokes normalization through it. compare_groups accepts already supplied summaries and does not invoke normalizers. Thus a malformed or expensive library input can at most be shown here to affect its invoking local process; no implemented supervisor/shared-service blast radius, paid amplification or cross-principal availability consequence is established. Missing limits and exception consistency remain hardening, not speculative needs_validation findings.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Before connecting normalization to automated trace ingestion, add explicit SQL/HTTP input-size and SQL tree-complexity limits, and a grouping observation/cardinality budget. The last-eight-parent rule bounds ancestry count only. Current source has no shared-resource caller, so the absent budgets alone are not an availability finding.",
+      "Define a consistent metadata-only failure contract across SQL parsing/transformation/generation and HTTP URL parsing; include bounded malformed-input regression cases when execution is authorized. Current exception gaps do not establish a fatal shared-process security boundary, and no SQLGlot CVE or superlinear complexity is asserted."
+    ],
+    "uncovered": []
+  },
+  "hunt_gitcost": {
+    "units": [
+      {
+        "coverage_id": "src%2Fspandiff%2Forchestration%2Frevisions.py%23_default_runner::src%2Fspandiff%2Forchestration%2Fsnapshot.py%23_default_runner::src%2Fspandiff%2Forchestration::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Unbounded%20buffering%20and%20cardinality",
+        "disposition": "covered",
+        "reviewed_paths": [
+          "src/spandiff/orchestration/revisions.py",
+          "src/spandiff/orchestration/snapshot.py",
+          "tests/test_revisions.py",
+          "tests/test_snapshot.py",
+          "README.md",
+          "src/spandiff/cli/__init__.py",
+          "src/spandiff/orchestration/cleanup.py",
+          "docs/DECISIONS.md"
+        ],
+        "checks": [
+          {
+            "agent_id": "hunt_gitcost",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/revisions.py",
+              "src/spandiff/orchestration/snapshot.py",
+              "tests/test_revisions.py",
+              "tests/test_snapshot.py",
+              "README.md",
+              "src/spandiff/cli/__init__.py",
+              "docs/DECISIONS.md"
+            ],
+            "invariant": "Follow repository-selected Git work through the actual default subprocess runners and buffered output; establish a lower-trust input and meaningful resource impact beyond intended local operator work before reporting exhaustion.",
+            "method": "source",
+            "result": "revisions.py:37 runs rev-parse/worktree add/remove synchronously with capture_output=True, text=True and no timeout; commit stdout is checked only after completion. snapshot.py:36 similarly captures all stdout/stderr without a timeout. capture:46-64 obtains the full binary tracked diff before hashing, retains it while listing all untracked names, then decodes/splits and creates tuples/sets/lists before exclusions. Costs can scale with operator-selected repository contents, tracked modifications, untracked cardinality, Git behavior and inherited configuration. No byte/cardinality/time bound is present. README safety explicitly scopes execution to trusted repositories; classes have no application callers beyond exports and tests, and CLI dispatch exposes no revision/snapshot operation. No remote caller, distinct lower-trust repository principal, shared worker pool, external paid resource, or other-principal availability effect is established. These are concrete local resource hardening gaps, not a surviving security candidate. Tests use FakeGit and do not exercise actual process/output limits; none were executed.",
+            "artifact": null
+          },
+          {
+            "agent_id": "hunt_gitcost",
+            "reviewed_paths": [
+              "src/spandiff/orchestration/revisions.py",
+              "src/spandiff/orchestration/snapshot.py",
+              "src/spandiff/orchestration/cleanup.py",
+              "docs/DECISIONS.md"
+            ],
+            "invariant": "Check cancellation ownership, process lifetime and temporary resource recovery on the concrete default Git paths without attributing injected fixture callback behavior to them.",
+            "method": "source",
+            "result": "Both concrete defaults call subprocess.run synchronously and retain no PID/process-group handle or cancellation/deadline parameter. Revision create/remove operates on validated owned-root variant paths, but a failed worktree add has no explicit rollback, and no Git subprocess registration or wiring to CleanupManager is implemented. CleanupManager.cancel only transitions the journal; it does not interrupt either Git runner, while cleanup invokes externally supplied handlers. Source therefore does not establish cancellation propagation or descendant-process containment, but also does not establish an abandoned shared process, repeating handle leak, retained cross-principal resource, or cancellation-return path that leaves Git work running. OS-specific subprocess interruption/descendant behavior was not assumed or executed. Under the local trusted operator model these remain hardening observations rather than findings.",
+            "artifact": null
+          }
+        ],
+        "candidate_fingerprints": [],
+        "unresolved": []
+      }
+    ],
+    "candidates": [],
+    "hardening": [
+      "Bound stdout/stderr in both default Git runners and hash tracked diff incrementally; cap untracked-name bytes/count before decoding and materializing tuples, sets and sorted lists. Current memory growth consumes the selecting operator process and has no source-established shared-service blast radius.",
+      "Add explicit Git operation deadlines and cancellation ownership if orchestration is connected to execution: process-group lifecycle, wait/reap, and exact owned-worktree cleanup after failed or interrupted creation. Current journal cancellation is not wired to either default Git runner, and no concrete retained descendant or shared-pool leak was established.",
+      "Existing Git unit tests use injected FakeGit responses; future bounded isolated default-runner tests should check output ceilings, cancellation and failure cleanup. No target processes or tests were run during this source-only review."
+    ],
+    "uncovered": []
+  }
+}
